@@ -19,7 +19,7 @@ const Navbar = () => {
      <li><NavLink to='/menu'>Our Menu</NavLink></li>
      <li><NavLink to='/order'>Order Food</NavLink></li>
      <li>
-     <Link to="/" className="">
+     <Link to="/dashboard/cart"className="">
           <button className=" btn ">
             <IoCart className="ml-2 text-xl" />
             <div className="badge badge-secondary">+{cart.length}</div>

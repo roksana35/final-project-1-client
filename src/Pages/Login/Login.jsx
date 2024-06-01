@@ -4,6 +4,7 @@ import { loadCaptchaEnginge, LoadCanvasTemplate, LoadCanvasTemplateNoReload, val
 import { AuthContext } from '../../provider/AuthProvider';
 import Swal from 'sweetalert2';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import GoogleSignin from '../../Share/GoogleSignin';
 
 const Login = () => {
     
@@ -12,7 +13,7 @@ const Login = () => {
     const navigate=useNavigate();
     const location =useLocation();
     const from = location.state?.from?.pathname || "/";
-    console.log(from)
+    // console.log(from)
 
     useEffect(()=>{
         loadCaptchaEnginge(6);
@@ -102,8 +103,8 @@ const handleCaptcha=(e)=>{
               </div>
             </form>
             <div className='mx-auto mt-2 mb-4'>
-              <p className='mb-2'>New Here? <Link to='/signin'> Create a Account</Link> </p>
-              <button onClick={()=>{googleLogIn()}} className='btn btn-outline'>Continue With Google</button>
+              <p className='mb-2'>New Here? <Link to='/signin' className='text-blue-800 font-medium'> Create a Account</Link> </p>
+              <GoogleSignin></GoogleSignin>
             </div>
           </div>
         </div>

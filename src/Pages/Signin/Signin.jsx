@@ -2,13 +2,21 @@ import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../provider/AuthProvider";
 import Swal from "sweetalert2";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
+import { Link, useNavigate } from "react-router-dom";
+import GoogleSignin from "../../Share/GoogleSignin";
 
 
 const Signin = () => {
+  const axiosPublic= useAxiosPublic();
+  const navigate =useNavigate();
+  
+
   const { signUpUser,updateProfileUser } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
+    reset,
 
     formState: { errors },
   } = useForm();
@@ -22,13 +30,26 @@ const Signin = () => {
         updateProfileUser(data.name,data.photo)
         .then(()=>{
             console.log('user update successfully')
-            Swal.fire({
-              position: "top-end",
-              icon: "success",
-              title: "User create successfully",
-              showConfirmButton: false,
-              timer: 1500
-            });
+            const userInfo={
+              name:data.name,
+              email:data.email
+            }
+            axiosPublic.post('/users',userInfo)
+            .then(res=>{
+              if(res.data.insertedId){
+                console.log('user added to the database')
+                reset();
+                Swal.fire({
+                  position: 'top-end',
+                  icon: 'success',
+                  title: 'User created successfully.',
+                  showConfirmButton: false,
+                  timer: 1500
+              });
+              navigate('/');
+              }
+            })
+            
 
         }).catch(error=>{
             console.log(error)
@@ -147,6 +168,11 @@ const Signin = () => {
               />
             </div>
           </form>
+          <div className='mx-auto mt-2 mb-4'>
+              <p className='mb-2'>Already have a Account? <Link to='/login' className="text-blue-800 font-medium"> Then login </Link> </p>
+              <GoogleSignin></GoogleSignin>
+              
+            </div>
         </div>
       </div>
     </div>
